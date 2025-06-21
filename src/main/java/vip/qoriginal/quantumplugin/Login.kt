@@ -44,7 +44,6 @@ class Login : Listener {
 
 	val logger = Logger()
 	val gson = Gson()
-	val leaveMessageComponent = LeaveMessageComponent()
 
 	suspend fun abstractLoginLogic(player: Player){
 		val time = withContext(Dispatchers.IO) {

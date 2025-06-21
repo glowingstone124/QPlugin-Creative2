@@ -16,8 +16,6 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 
 import static vip.qoriginal.quantumplugin.QuantumPlugin.isIndicatorEnabled;
-import static vip.qoriginal.quantumplugin.Ranking.placeMap;
-import static vip.qoriginal.quantumplugin.Ranking.destroyMap;
 
 public class PlayerEventListener implements Listener {
     ChatSync cs = new ChatSync();
@@ -26,24 +24,6 @@ public class PlayerEventListener implements Listener {
         Player player = event.getEntity();
         cs.sendChatMsg("玩家" + player.getName() + "死了，" + event.getDeathMessage());
     }
-
-    @EventHandler
-    public void onPlayerExpChange(PlayerExpChangeEvent event) {
-        Player player = event.getPlayer();
-        int oldLevel = player.getLevel();
-        int totalExp = getTotalExperience(player) + event.getAmount();
-
-        int newLevel = 0;
-        while (totalExp >= getExpToLevel(newLevel)) {
-            totalExp -= getExpToLevel(newLevel);
-            newLevel++;
-        }
-        if (newLevel > oldLevel && newLevel >= 100) {
-            cs.sendChatMsg("玩家 " + player.getName() + " 的等级已经超过了100级，现在等级为：" + newLevel);
-        }
-
-    }
-
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
         if (!(event.getEntity() instanceof Arrow)) {
@@ -82,42 +62,4 @@ public class PlayerEventListener implements Listener {
         }
     }
 
-    private int getExpToLevel(int level) {
-        if (level >= 31) {
-            return 62 + (level - 31) * 7;
-        } else if (level >= 16) {
-            return 17 + (level - 16) * 3;
-        } else {
-            return 7 + level * 2;
-        }
-    }
-
-    private int getTotalExperience(Player player) {
-        int level = player.getLevel();
-        int totalExp = 0;
-        for (int i = 0; i < level; i++) {
-            totalExp += getExpToLevel(i);
-        }
-        totalExp += player.getExp() * getExpToLevel(level);
-        return totalExp;
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
-        String player = event.getPlayer().getName();
-        if (!destroyMap.containsKey(player)) {
-            destroyMap.put(player, 1L);
-        } else {
-            destroyMap.put(player, destroyMap.get(player) + 1);
-        }
-    }
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        String player = event.getPlayer().getName();
-        if (!placeMap.containsKey(player)) {
-            placeMap.put(player, 1L);
-        } else {
-            placeMap.put(player, placeMap.get(player) + 1);
-        }
-    }
 }
