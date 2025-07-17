@@ -44,16 +44,13 @@ public class PlayerEventListener implements Listener {
     }
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Arrow)
+        if (event.getDamager() instanceof Arrow arrow)
         {
-            Arrow arrow = (Arrow) event.getDamager();
-            if (arrow.getShooter() instanceof Player)
+            if (arrow.getShooter() instanceof Player player)
             {
-                Player player = (Player) arrow.getShooter();
                 if (!isIndicatorEnabled(player)) return;
-                if (event.getEntity() instanceof LivingEntity)
+                if (event.getEntity() instanceof LivingEntity livingEntity)
                 {
-                    LivingEntity livingEntity = (LivingEntity) event.getEntity();
                     double damage = event.getDamage();
                     player.sendMessage(Component.text(" -> "+ livingEntity.getName() +" "+ damage + " damage").color(TextColor.color(34,139,34)));
                     player.sendActionBar(Component.text(player.getName()+" -> "+ livingEntity.getName() +" 造成 "+ damage + " 点伤害").color(TextColor.color(34,139,34)));
