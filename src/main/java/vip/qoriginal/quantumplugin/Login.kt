@@ -48,7 +48,7 @@ class Login : Listener {
 	suspend fun abstractLoginLogic(player: Player){
 		val time = withContext(Dispatchers.IO) {
 			JsonParser.parseString(
-				Request.sendGetRequest(Config.API_ENDPOINT + "/qo/download/getgametime?username=${player.name}")
+				Request.sendGetRequest(Config.API_ENDPOINT + "/qo/download/logingreeting?username=${player.name}")
 					.get()
 			).asJsonObject
 		}
