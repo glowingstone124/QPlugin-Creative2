@@ -48,7 +48,7 @@ public class ChatSync implements Listener {
             Thread.startVirtualThread(() -> {
                 try {
                     String playerName = event.getPlayer().getName();
-                    String message = event.originalMessage().toString();
+                    String message = event.message().toString();
                     String encodedMessage = new String(message.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
                     MessageWrapper mw = new MessageWrapper(encodedMessage, ChatType.GAME_CHAT.getChatType(), AuthUtils.INSTANCE.getToken(), QO_CREATIVE_CODE, System.currentTimeMillis(), playerName);
                     System.out.println(mw.getAsString());
