@@ -6,6 +6,7 @@ import kotlin.Pair;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,7 +49,7 @@ public class ChatSync implements Listener {
             Thread.startVirtualThread(() -> {
                 try {
                     String playerName = event.getPlayer().getName();
-                    String message = event.message().toString();
+                    String message = PlainTextComponentSerializer.plainText().serialize(event.originalMessage());
                     String encodedMessage = new String(message.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
                     MessageWrapper mw = new MessageWrapper(encodedMessage, ChatType.GAME_CHAT.getChatType(), AuthUtils.INSTANCE.getToken(), QO_CREATIVE_CODE, System.currentTimeMillis(), playerName);
                     System.out.println(mw.getAsString());
